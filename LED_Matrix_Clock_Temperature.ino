@@ -1,3 +1,7 @@
+// Personal Note -- Do not read :)
+// Upload code as Arduino Uno / 328
+
+
 #include <MaxMatrix.h>            // Library http://code.google.com/p/arudino-maxmatrix-library/source/browse/MaxMatrix/
 #include <avr/pgmspace.h>
 #include "DHT.h"
