@@ -136,7 +136,7 @@ long UpdateTempMillis, TransmitMillis;
 int DisplayDate = 0;
 int DisplayHum = 0;
 
-int Speeeeeed = 75;            // Scrolling Speed
+int Speeeeeed = 65;            // Scrolling Speed
 
 byte buffer[10];               // Buffer used for transfering stored data from PROGMEM
 
@@ -196,7 +196,8 @@ void loop()
        Serial.println("Time Received");             // Display time-received message.
        RTC.set(t);                                 // Set the RTC and the system time to the received value.
        setTime(t);                                 //
-       PrintStringWithShift("H WRA AAPOUHKEYUHKE!  ",Speeeeeed-35);  // Display confirm message on LED Matrix.
+       TheMatrix.clear();
+       PrintStringWithShift("H VRA APOUHKEYUHKE!  ",Speeeeeed-35);  // Display confirm message on LED Matrix.
        Serial.println("Time Setup on RTC!");       // Display confirm message on serial terminal.
      }
   }
@@ -216,15 +217,15 @@ void loop()
     StartMillis=millis();
   
   
-  if (millis()-StartMillis<=(DisplayTime*60*1000)) // Keep displaying for DisplayTime minutes
-    DisplayIsOn = true;
-  else
+  if ((millis()-StartMillis)>(DisplayTime*60000)) // If it's some time before last PIR alarm
   {
-    DisplayIsOn = false;    
-    TheMatrix.clear();                             // Clear the LEDs
+    DisplayIsOn = false;                          // Entering standby -- do not display on the LED Matrix
+    TheMatrix.clear();                            // Clear the LEDs
   }
+  else
+    DisplayIsOn = true;                           // Start displaying...
   
-  if (DisplayIsOn)                                 // Displaying data
+  if (DisplayIsOn)                                // Displaying data on LED Matrix
   {
     char TimeNow[14];
     sprintf(TimeNow,"VRA %.2d:%.2d:%.2d  ",hour(),minute(),second());
